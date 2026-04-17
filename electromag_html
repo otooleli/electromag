@@ -1,0 +1,875 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Engineering Electromagnetics — Complete Study Guide</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,600;1,300&display=swap');
+
+  :root {
+    --bg: #0d0f14;
+    --surface: #14171f;
+    --surface2: #1c202c;
+    --border: #2a2f3d;
+    --text: #e0e4f0;
+    --muted: #7a8299;
+    --c1: #4fc3f7;
+    --c2: #f06292;
+    --c3: #aed581;
+    --c4: #ffb74d;
+    --c5: #ce93d8;
+    --c6: #80cbc4;
+    --cgold: #ffd54f;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-size: 15px;
+    line-height: 1.7;
+    padding: 0 1rem 5rem;
+  }
+
+  .hero {
+    background: linear-gradient(135deg, #0d0f14 0%, #131826 60%, #0f1520 100%);
+    border-bottom: 1px solid var(--border);
+    padding: 2.5rem 1rem 2rem;
+    margin: 0 -1rem 0;
+  }
+  .hero-inner { max-width: 900px; margin: 0 auto; }
+  .hero .chip {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--c1);
+    border: 1px solid rgba(79,195,247,0.3);
+    display: inline-block;
+    padding: 0.2rem 0.6rem;
+    border-radius: 2px;
+    margin-bottom: 0.8rem;
+  }
+  .hero h1 {
+    font-size: 2.2rem;
+    font-weight: 600;
+    letter-spacing: -0.04em;
+    line-height: 1.15;
+    margin-bottom: 0.5rem;
+  }
+  .hero p { color: var(--muted); font-size: 0.9rem; max-width: 580px; margin-bottom: 1.2rem; }
+
+  .nav-pills { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+  .nav-pill {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.67rem;
+    padding: 0.25rem 0.7rem;
+    border-radius: 2px;
+    border: 1px solid;
+    text-decoration: none;
+    letter-spacing: 0.04em;
+  }
+  .p1 { color: var(--c1); border-color: rgba(79,195,247,0.35); background: rgba(79,195,247,0.07); }
+  .p2 { color: var(--c2); border-color: rgba(240,98,146,0.35); background: rgba(240,98,146,0.07); }
+  .p3 { color: var(--c3); border-color: rgba(174,213,129,0.35); background: rgba(174,213,129,0.07); }
+  .p4 { color: var(--c4); border-color: rgba(255,183,77,0.35); background: rgba(255,183,77,0.07); }
+  .p5 { color: var(--c5); border-color: rgba(206,147,216,0.35); background: rgba(206,147,216,0.07); }
+  .p6 { color: var(--c6); border-color: rgba(128,203,196,0.35); background: rgba(128,203,196,0.07); }
+  .pgold { color: var(--cgold); border-color: rgba(255,213,79,0.35); background: rgba(255,213,79,0.07); }
+
+  .page { max-width: 900px; margin: 0 auto; }
+
+  .exam-map {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    margin: 2rem 0;
+  }
+  .q-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-top: 3px solid;
+    padding: 1rem 1.1rem;
+    border-radius: 4px;
+  }
+  .q-card.q1 { border-top-color: var(--c1); }
+  .q-card.q2 { border-top-color: var(--c2); }
+  .q-card.q3 { border-top-color: var(--c5); }
+  .q-card .q-label { font-family: 'IBM Plex Mono', monospace; font-size: 0.65rem; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 0.3rem; opacity: 0.7; }
+  .q-card.q1 .q-label { color: var(--c1); }
+  .q-card.q2 .q-label { color: var(--c2); }
+  .q-card.q3 .q-label { color: var(--c5); }
+  .q-card h3 { font-size: 0.92rem; font-weight: 600; margin-bottom: 0.5rem; }
+  .q-card ul { list-style: none; padding: 0; }
+  .q-card ul li { font-size: 0.8rem; color: var(--muted); padding: 0.1rem 0; }
+  .q-card ul li::before { content: "→ "; opacity: 0.4; }
+  .q-card .marks { margin-top: 0.7rem; font-family: 'IBM Plex Mono', monospace; font-size: 0.68rem; opacity: 0.45; }
+
+  .ob-box {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-left: 4px solid var(--cgold);
+    border-radius: 4px;
+    padding: 1.2rem 1.4rem;
+    margin-bottom: 2rem;
+  }
+  .ob-box .ob-title { font-family: 'IBM Plex Mono', monospace; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.12em; color: var(--cgold); margin-bottom: 0.8rem; }
+  .ob-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem 1.5rem; }
+  .ob-item { font-size: 0.84rem; color: var(--muted); padding: 0.3rem 0; border-bottom: 1px solid var(--border); }
+  .ob-item strong { color: var(--text); }
+
+  .section-title {
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin: 3rem 0 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    letter-spacing: -0.02em;
+    flex-wrap: wrap;
+  }
+  .sdot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; flex-shrink: 0; }
+  .spill {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.6rem;
+    padding: 0.15rem 0.5rem;
+    border-radius: 2px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    border: 1px solid;
+    font-weight: 400;
+  }
+
+  .topic {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-left: 3px solid;
+    border-radius: 4px;
+    margin-bottom: 1rem;
+    overflow: hidden;
+  }
+  .topic.c1 { border-left-color: var(--c1); }
+  .topic.c2 { border-left-color: var(--c2); }
+  .topic.c3 { border-left-color: var(--c3); }
+  .topic.c4 { border-left-color: var(--c4); }
+  .topic.c5 { border-left-color: var(--c5); }
+  .topic.c6 { border-left-color: var(--c6); }
+  .topic.cgold { border-left-color: var(--cgold); }
+
+  .topic-head { padding: 0.75rem 1.2rem; background: var(--surface2); display: flex; justify-content: space-between; align-items: center; }
+  .topic-head h3 { font-size: 0.92rem; font-weight: 600; }
+
+  .badge { font-family: 'IBM Plex Mono', monospace; font-size: 0.62rem; padding: 0.15rem 0.45rem; border-radius: 2px; white-space: nowrap; }
+  .topic.c1 .badge { background: rgba(79,195,247,0.12); color: var(--c1); }
+  .topic.c2 .badge { background: rgba(240,98,146,0.12); color: var(--c2); }
+  .topic.c3 .badge { background: rgba(174,213,129,0.12); color: var(--c3); }
+  .topic.c4 .badge { background: rgba(255,183,77,0.12); color: var(--c4); }
+  .topic.c5 .badge { background: rgba(206,147,216,0.12); color: var(--c5); }
+  .topic.c6 .badge { background: rgba(128,203,196,0.12); color: var(--c6); }
+  .topic.cgold .badge { background: rgba(255,213,79,0.12); color: var(--cgold); }
+
+  .topic-body { padding: 0.9rem 1.2rem 1.1rem; }
+
+  .fbox {
+    background: #080a0f;
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    padding: 0.7rem 1rem;
+    margin: 0.6rem 0;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.8rem;
+    color: #c8d8f0;
+    line-height: 1.9;
+    white-space: pre-wrap;
+  }
+  .fbox .c { color: var(--muted); font-style: italic; font-family: 'IBM Plex Sans', sans-serif; font-size: 0.75rem; }
+
+  .tip, .warn, .note { border-radius: 3px; padding: 0.5rem 0.85rem; font-size: 0.83rem; margin: 0.55rem 0; line-height: 1.55; }
+  .tip  { background: rgba(79,195,247,0.06);  border: 1px solid rgba(79,195,247,0.2);  color: #a8d8f0; }
+  .warn { background: rgba(240,98,146,0.06);  border: 1px solid rgba(240,98,146,0.2);  color: #f0b0c4; }
+  .note { background: rgba(174,213,129,0.06); border: 1px solid rgba(174,213,129,0.2); color: #c0dca0; }
+  .tip::before  { content: "💡 "; }
+  .warn::before { content: "⚠️ "; }
+  .note::before { content: "📌 "; }
+
+  .steps { counter-reset: s; list-style: none; margin: 0.5rem 0; }
+  .steps li { counter-increment: s; display: flex; gap: 0.75rem; margin-bottom: 0.55rem; font-size: 0.86rem; }
+  .steps li::before {
+    content: counter(s);
+    font-family: 'IBM Plex Mono', monospace; font-size: 0.68rem;
+    background: var(--surface2); border: 1px solid var(--border);
+    width: 21px; height: 21px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0; margin-top: 0.18rem; color: var(--muted);
+  }
+
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; margin: 0.6rem 0; }
+
+  p.body { font-size: 0.87rem; color: #bcc3d8; margin: 0.35rem 0; }
+  b, strong { color: var(--text); font-weight: 600; }
+
+  .prio-grid { display: grid; grid-template-columns: 2fr 1fr 2fr; gap: 0.3rem 1rem; font-size: 0.82rem; align-items: center; margin-top: 0.3rem; }
+  .prio-hdr { color: var(--muted); font-family: 'IBM Plex Mono', monospace; font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.08em; }
+
+  @media (max-width: 640px) {
+    .exam-map, .two-col, .ob-grid, .prio-grid { grid-template-columns: 1fr; }
+    .hero h1 { font-size: 1.55rem; }
+    .nav-pills { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="hero-inner">
+    <div class="chip">EEU33C14 · TCD Junior Sophister · Open Book · 100 Marks</div>
+    <h1>Engineering Electromagnetics<br>Complete Study Guide</h1>
+    <p>All 7 module topics with key formulas, methods, and exam-specific tips. Print selected pages to use as open-book notes.</p>
+    <div class="nav-pills">
+      <a href="#s1" class="nav-pill p1">1. Maxwell's Equations</a>
+      <a href="#s2" class="nav-pill p1">2. Lossless Propagation</a>
+      <a href="#s3" class="nav-pill p2">3. Lossy Media</a>
+      <a href="#s4" class="nav-pill p3">4. Waves at Boundaries</a>
+      <a href="#s5" class="nav-pill p4">5. Transmission Lines</a>
+      <a href="#s6" class="nav-pill p5">6. Antennas</a>
+      <a href="#s7" class="nav-pill p6">7. EMC &amp; Safety</a>
+      <a href="#s8" class="nav-pill pgold">Reference</a>
+    </div>
+  </div>
+</div>
+
+<div class="page">
+
+<!-- EXAM MAP -->
+<h2 class="section-title" style="margin-top:2rem"><span class="sdot" style="background:#666"></span>Sample Paper Map</h2>
+<div class="exam-map">
+  <div class="q-card q1">
+    <div class="q-label">Question 1 — 40 marks</div>
+    <h3>Electric Fields &amp; Waves</h3>
+    <ul>
+      <li>Point charge E-field (Coulomb)</li>
+      <li>Superposition of charges</li>
+      <li>Voltage &amp; potential differences</li>
+      <li>Wave propagation sketch (t shift)</li>
+      <li>Snell's law / Fresnel coefficients</li>
+    </ul>
+    <div class="marks">5 parts · 8 marks each</div>
+  </div>
+  <div class="q-card q2">
+    <div class="q-label">Question 2 — 30 marks</div>
+    <h3>Charged Surfaces &amp; Potential</h3>
+    <ul>
+      <li>Surface charge integration setup</li>
+      <li>Infinite sheet approximation</li>
+      <li>Point charge voltage formula</li>
+      <li>E from V (gradient)</li>
+      <li>Line integral of E · dl</li>
+    </ul>
+    <div class="marks">2 parts · 15 marks each</div>
+  </div>
+  <div class="q-card q3">
+    <div class="q-label">Question 3 — 30 marks</div>
+    <h3>Waves &amp; Antennas</h3>
+    <ul>
+      <li>Plane wave with given k-vector</li>
+      <li>Time-averaged Poynting vector</li>
+      <li>Short dipole — find current I₀</li>
+      <li>Half-wave dipole length &amp; sketch</li>
+    </ul>
+    <div class="marks">3 parts · 15/10/5 marks</div>
+  </div>
+</div>
+
+<!-- OPEN BOOK STRATEGY -->
+<div class="ob-box">
+  <div class="ob-title">📖 Open Book Strategy — What to Prepare &amp; Bring</div>
+  <div class="ob-grid">
+    <div class="ob-item"><strong>Sheet 1:</strong> Maxwell's equations + constitutive relations</div>
+    <div class="ob-item"><strong>Sheet 2:</strong> Wave equations, propagation constants, η formulas</div>
+    <div class="ob-item"><strong>Sheet 3:</strong> Snell's law + Fresnel coefficients (TE &amp; TM)</div>
+    <div class="ob-item"><strong>Sheet 4:</strong> Transmission line equations + VSWR</div>
+    <div class="ob-item"><strong>Sheet 5:</strong> Antenna formulas (dipole, gain, Friis)</div>
+    <div class="ob-item"><strong>Sheet 6:</strong> Coordinate conversions + all constants</div>
+    <div class="ob-item"><strong>Sheet 7:</strong> One worked example per question type</div>
+    <div class="ob-item"><strong>Sheet 8:</strong> Pre-drawn radiation patterns + wave diagrams</div>
+  </div>
+</div>
+
+
+<!-- ═══ TOPIC 1: MAXWELL'S EQUATIONS ═══ -->
+<h2 class="section-title" id="s1">
+  <span class="sdot" style="background:var(--c1)"></span>
+  Module Topic 1: Maxwell's Equations
+  <span class="spill" style="color:var(--c1);border-color:rgba(79,195,247,0.3)">Foundation</span>
+</h2>
+
+<div class="topic c1">
+  <div class="topic-head"><h3>The Four Maxwell Equations</h3><span class="badge">Underpins Everything</span></div>
+  <div class="topic-body">
+    <p class="body">These four equations govern all classical electromagnetic behaviour. In differential (point) form:</p>
+    <div class="fbox">&#8711; &middot; D = &rho;&#8303;          <span class="c">Gauss's Law (electric) — charges create E-fields</span>
+&#8711; &middot; B = 0            <span class="c">Gauss's Law (magnetic) — no magnetic monopoles</span>
+&#8711; &times; E = &minus;&part;B/&part;t       <span class="c">Faraday's Law — changing B induces E</span>
+&#8711; &times; H = J + &part;D/&part;t    <span class="c">Ampere's Law — currents + changing E create H</span></div>
+    <p class="body"><strong>Constitutive Relations</strong> — link D, B, J to E and H via material properties:</p>
+    <div class="fbox">D = &epsilon;E = &epsilon;&#8320;&epsilon;&#7523;E       <span class="c">electric displacement field</span>
+B = &mu;H = &mu;&#8320;&mu;&#7523;H       <span class="c">magnetic flux density</span>
+J = &sigma;E               <span class="c">Ohm's Law (conduction current density)</span>
+
+Constants:
+&epsilon;&#8320; = 8.854 &times; 10&#8315;&sup1;&sup2; F/m
+&mu;&#8320; = 4&pi; &times; 10&#8315;&sup7; H/m
+c  = 1/&radic;(&epsilon;&#8320;&mu;&#8320;) = 3 &times; 10&sup8; m/s</div>
+    <div class="note">For a simple lossless non-magnetic medium: &sigma; = 0, &mu;&#7523; = 1. Ampere's Law becomes &nabla;&times;H = &epsilon;&part;E/&part;t only.</div>
+    <p class="body"><strong>Integral form</strong> (useful for symmetric problems):</p>
+    <div class="fbox">&#8750; D &middot; dS = Q&#8347;&#8345;&#8348;    <span class="c">total free charge enclosed</span>
+&#8750; B &middot; dS = 0
+&#8750; E &middot; dl = &minus;d/dt &#8747; B &middot; dS   <span class="c">induced EMF</span>
+&#8750; H &middot; dl = I&#8347;&#8345;&#8348; + d/dt &#8747; D &middot; dS</div>
+    <div class="note">The &part;D/&part;t term (displacement current) was Maxwell's key insight — it completes the equations and makes EM wave propagation in free space possible.</div>
+  </div>
+</div>
+
+<div class="topic c1">
+  <div class="topic-head"><h3>Wave Equation from Maxwell's Equations</h3><span class="badge">Key Derivation</span></div>
+  <div class="topic-body">
+    <p class="body">Take the curl of Faraday's Law and substitute Ampere's Law:</p>
+    <div class="fbox">&nabla;&sup2;E &minus; &mu;&epsilon; &part;&sup2;E/&part;t&sup2; = 0     <span class="c">vector wave equation for E</span>
+&nabla;&sup2;H &minus; &mu;&epsilon; &part;&sup2;H/&part;t&sup2; = 0     <span class="c">vector wave equation for H</span>
+
+Phase velocity in medium:
+v = 1/&radic;(&mu;&epsilon;) = c/&radic;(&epsilon;&#7523;&mu;&#7523;) = c/n
+
+Refractive index: n = &radic;(&epsilon;&#7523;&mu;&#7523;) &asymp; &radic;&epsilon;&#7523;  (for non-magnetic media)</div>
+    <div class="tip">You don't need to reproduce the full derivation in exam — but know the result and where it comes from.</div>
+  </div>
+</div>
+
+
+<!-- ═══ TOPIC 2: LOSSLESS PROPAGATION ═══ -->
+<h2 class="section-title" id="s2">
+  <span class="sdot" style="background:var(--c1)"></span>
+  Module Topic 2: Propagation in Lossless Media
+  <span class="spill" style="color:var(--c1);border-color:rgba(79,195,247,0.3)">Q1a–d · Q2 · Q3a</span>
+</h2>
+
+<div class="topic c1">
+  <div class="topic-head"><h3>Plane Wave Fundamentals</h3><span class="badge">Q1d, Q3a</span></div>
+  <div class="topic-body">
+    <div class="fbox">E(r,t) = E&#8320; cos(&omega;t &minus; k&middot;r) &#234;&#8336;
+H(r,t) = H&#8320; cos(&omega;t &minus; k&middot;r) &#234;&#8338;
+
+Key relations (lossless medium):
+&omega; = 2&pi;f                      <span class="c">angular frequency [rad/s]</span>
+k = &omega;&radic;(&mu;&epsilon;) = &omega;/v = 2&pi;/&lambda;   <span class="c">wavenumber [rad/m]</span>
+&lambda; = v/f = 2&pi;/k               <span class="c">wavelength [m]</span>
+v = c/n = c/&radic;&epsilon;&#7523;             <span class="c">phase velocity [m/s]</span>
+
+Wave impedance:
+&eta; = E&#8320;/H&#8320; = &radic;(&mu;/&epsilon;) = &eta;&#8320;/n
+&eta;&#8320; = 377 &Omega; &asymp; 120&pi; &Omega;           <span class="c">free space impedance</span></div>
+    <p class="body"><strong>TEM wave orthogonality:</strong> E, H, and k&#770; form a right-handed set:</p>
+    <div class="fbox">k&#770; &middot; E = 0   <span class="c">E is perpendicular to direction of travel</span>
+k&#770; &middot; H = 0   <span class="c">H is perpendicular to direction of travel</span>
+H = (k&#770; &times; E) / &eta;  <span class="c">H is found from E and propagation direction</span></div>
+    <div class="tip">For Q3a with k = 7&#234;x + 5&#234;y: choose E = E&#8320;&#234;z (perpendicular to k). Then H = (k&#770; &times; E&#8320;&#234;z)/&eta;&#8320;. Compute |k| = &radic;(49+25) = &radic;74, so k&#770; = k/|k|.</div>
+  </div>
+</div>
+
+<div class="topic c1">
+  <div class="topic-head"><h3>Poynting Vector — Power Flow</h3><span class="badge">Q3a iv</span></div>
+  <div class="topic-body">
+    <div class="fbox">Instantaneous:  S = E &times; H        [W/m&sup2;]
+
+Time-averaged (use for sinusoidal fields):
+&lang;S&rang; = &frac12; Re(E &times; H*)    [W/m&sup2;]
+
+For a real plane wave:
+&lang;S&rang; = E&#8320;&sup2;/(2&eta;) k&#770; = &frac12; E&#8320;H&#8320; k&#770;
+
+For E&#8320; = 1 V/m in free space:
+|&lang;S&rang;| = 1/(2&times;377) &asymp; 1.33 &times; 10&#8315;&sup3; W/m&sup2;</div>
+    <div class="tip">Direction of &lang;S&rang; always equals k&#770; — the direction energy flows. Magnitude is intensity (power per unit area).</div>
+  </div>
+</div>
+
+<div class="topic c1">
+  <div class="topic-head"><h3>Coulomb's Law — Electric Field from Point Charges</h3><span class="badge">Q1a, Q1b</span></div>
+  <div class="topic-body">
+    <div class="fbox">E(r) = (q / 4&pi;&epsilon;&#8320;) &times; (r &minus; r') / |r &minus; r'|&sup3;
+
+r  = field point (where you want E)
+r' = source point (location of charge q)
+R  = r &minus; r'  (separation vector, always FROM charge TO field point)
+R&#770; = R/|R|
+
+Superposition for N charges:
+E = &Sigma;&#7522; (q&#7522; / 4&pi;&epsilon;&#8320;) &times; (r &minus; r&#7522;) / |r &minus; r&#7522;|&sup3;</div>
+    <ol class="steps">
+      <li>Convert all positions to Cartesian (from cylindrical/spherical if needed)</li>
+      <li>Compute R = r &minus; r', then |R|, then R&#770; = R/|R|</li>
+      <li>Plug into Coulomb formula</li>
+      <li>For multiple charges: sum each E vector component-by-component</li>
+    </ol>
+    <div class="warn">This paper mixes cylindrical (&#x3C1;, &#x3C6;, z) and Cartesian notation. Convert to Cartesian first: &#234;&#x3C1; at angle &#x3C6; = cos&#x3C6; &#234;x + sin&#x3C6; &#234;y.</div>
+  </div>
+</div>
+
+<div class="topic c1">
+  <div class="topic-head"><h3>Electric Potential &amp; Voltage</h3><span class="badge">Q1c, Q2b</span></div>
+  <div class="topic-body">
+    <div class="fbox">Potential difference:
+V&#8347;&#8344; = V(r&#8347;) &minus; V(r&#8344;)   <span class="c">evaluate V at each point and subtract</span>
+
+For point charge at origin:
+V(r) = Q / (4&pi;&epsilon;r)   where r = |r|
+
+E from potential (gradient):
+E = &minus;&nabla;V = &minus;(&part;V/&part;x &#234;x + &part;V/&part;y &#234;y + &part;V/&part;z &#234;z)
+
+Line integral method:
+V&#8347;&#8344; = &minus;&int;&#8344;&#8594;&#8347; E &middot; dl</div>
+    <div class="tip">For Q2b: taking the gradient of V = Q/(4&pi;&epsilon;r) in spherical coords gives E = Q/(4&pi;&epsilon;r&sup2;) &#234;r — Coulomb's law recovered. Use as a sanity check.</div>
+  </div>
+</div>
+
+<div class="topic c1">
+  <div class="topic-head"><h3>Surface Charge Integration</h3><span class="badge">Q2a</span></div>
+  <div class="topic-body">
+    <div class="fbox">dE = (&rho;s dS / 4&pi;&epsilon;&#8320;) &times; (r &minus; r') / |r &minus; r'|&sup3;
+
+E = &int;&int; dE
+
+For flat plate in xy-plane:
+  dS = dx' dy'
+  r' = x'&#234;x + y'&#234;y  (source on plate)
+  r  = z&#234;z           (field point above centre)
+
+Infinite sheet approximation (valid when h &laquo; plate dimensions):
+E &asymp; &rho;s/(2&epsilon;&#8320;) &#234;n
+
+For Q2a: &rho;s = 2 &mu;C/m&sup2;, h = 1 mm &laquo; 10 cm plate
+E &asymp; (2&times;10&#8315;&sup6;) / (2&times;8.854&times;10&#8315;&sup1;&sup2;) &asymp; 113 kV/m</div>
+    <div class="warn">Q2a iii says to derive the integral — NOT evaluate it. Set up the integrand, differential area dS, and limits correctly. Full marks for setup alone.</div>
+  </div>
+</div>
+
+
+<!-- ═══ TOPIC 3: LOSSY MEDIA ═══ -->
+<h2 class="section-title" id="s3">
+  <span class="sdot" style="background:var(--c2)"></span>
+  Module Topic 3: Propagation in Lossy Media
+  <span class="spill" style="color:var(--c2);border-color:rgba(240,98,146,0.35)">Likely Exam Topic — Not in Sample</span>
+</h2>
+
+<div class="topic c2">
+  <div class="topic-head"><h3>Complex Propagation Constant &amp; Attenuation</h3><span class="badge">Core Theory</span></div>
+  <div class="topic-body">
+    <p class="body">When a medium has conductivity &sigma; &ne; 0, the wave decays as it propagates. The propagation constant is now complex:</p>
+    <div class="fbox">&gamma; = &alpha; + j&beta;
+
+&alpha; = attenuation constant [Np/m] — controls amplitude decay
+&beta; = phase constant      [rad/m] — controls phase variation
+
+General expressions:
+&alpha; = &omega;&radic;(&mu;&epsilon;/2) &times; [&radic;(1+(&#963;/&omega;&epsilon;)&sup2;) &minus; 1]^(1/2)
+&beta; = &omega;&radic;(&mu;&epsilon;/2) &times; [&radic;(1+(&#963;/&omega;&epsilon;)&sup2;) + 1]^(1/2)
+
+Wave in lossy medium (propagating +z):
+E(z,t) = E&#8320; e^(&minus;&alpha;z) cos(&omega;t &minus; &beta;z) &#234;x   <span class="c">decays exponentially</span></div>
+    <div class="tip">After distance &delta; = 1/&alpha; (skin depth), the field amplitude drops to 1/e &asymp; 37% of its value. Power drops to 1/e&sup2; &asymp; 14%.</div>
+  </div>
+</div>
+
+<div class="topic c2">
+  <div class="topic-head"><h3>Loss Tangent, Skin Depth &amp; Approximations</h3><span class="badge">Key Parameters</span></div>
+  <div class="topic-body">
+    <div class="fbox">Loss tangent:
+tan &delta; = &sigma;/(&omega;&epsilon;)   <span class="c">conduction current / displacement current</span>
+
+Classification:
+tan &delta; &laquo; 1  &rarr;  good dielectric (low loss) — e.g. glass, PTFE
+tan &delta; &raquo; 1  &rarr;  good conductor (high loss) — e.g. copper, sea water
+
+Good conductor (&sigma; &raquo; &omega;&epsilon;):
+&alpha; &asymp; &beta; &asymp; &radic;(&pi;f&mu;&sigma;) = &radic;(&omega;&mu;&sigma;/2)
+
+Skin depth: &delta;s = 1/&alpha; = &radic;(2/(&omega;&mu;&sigma;)) = &radic;(2/(2&pi;f&mu;&sigma;))
+
+Complex wave impedance in good conductor:
+&eta;c &asymp; (1+j)/(&sigma;&delta;s)
+
+Good dielectric (&sigma; &laquo; &omega;&epsilon;):
+&alpha; &asymp; (&sigma;/2)&radic;(&mu;/&epsilon;)   <span class="c">small attenuation</span>
+&beta; &asymp; &omega;&radic;(&mu;&epsilon;)         <span class="c">same as lossless case</span></div>
+    <div class="note">Skin depth explains why high-frequency current only flows at the surface of conductors. At 1 GHz in copper: &delta;s &asymp; 2 &mu;m — the current is in a 2 &mu;m surface layer.</div>
+  </div>
+</div>
+
+<div class="topic c2">
+  <div class="topic-head"><h3>Power Absorption in Lossy Media</h3><span class="badge">Links to EMC/Safety</span></div>
+  <div class="topic-body">
+    <div class="fbox">Time-averaged Poynting vector in lossy medium:
+&lang;S&rang; = &frac12; Re(E &times; H*) = &frac12; |E&#8320;|&sup2;/|&eta;c| &times; e^(&minus;2&alpha;z) k&#770;
+
+Note: power decays as e^(&minus;2&alpha;z) (field decays as e^(&minus;&alpha;z))
+
+Ohmic power dissipated per unit volume:
+&lang;Pv&rang; = &frac12; &sigma;|E|&sup2;   [W/m&sup3;]</div>
+    <div class="tip">In medical applications (MRI, microwave hyperthermia), this power absorption heats tissue. This is the physical basis for the SAR metric in Topic 7.</div>
+  </div>
+</div>
+
+
+<!-- ═══ TOPIC 4: WAVES AT BOUNDARIES ═══ -->
+<h2 class="section-title" id="s4">
+  <span class="sdot" style="background:var(--c3)"></span>
+  Module Topic 4: Waves at Boundaries
+  <span class="spill" style="color:var(--c3);border-color:rgba(174,213,129,0.35)">Q1e — Direct Exam Question</span>
+</h2>
+
+<div class="topic c3">
+  <div class="topic-head"><h3>Normal Incidence</h3><span class="badge">Simple Case First</span></div>
+  <div class="topic-body">
+    <div class="fbox">Reflection coefficient:    &Gamma; = (&eta;&sub2; &minus; &eta;&sub1;) / (&eta;&sub2; + &eta;&sub1;)
+Transmission coefficient:  &tau; = 2&eta;&sub2; / (&eta;&sub2; + &eta;&sub1;)
+
+Relation: &tau; = 1 + &Gamma;
+
+Power check: |&Gamma;|&sup2; + (&eta;&sub1;/&eta;&sub2;)|&tau;|&sup2; = 1
+
+Example (free space &rarr; &epsilon;r = 4):
+&eta;&sub1; = 377 &Omega;, &eta;&sub2; = 377/2 = 188.5 &Omega;
+&Gamma; = (188.5&minus;377)/(188.5+377) = &minus;0.333
+&tau; = 0.667</div>
+  </div>
+</div>
+
+<div class="topic c3">
+  <div class="topic-head"><h3>Oblique Incidence — Snell's Law &amp; Fresnel Coefficients</h3><span class="badge">Q1e</span></div>
+  <div class="topic-body">
+    <div class="fbox">Snell's Law:
+n&sub1; sin&theta;&#7522; = n&sub2; sin&theta;&#8348;     <span class="c">n = &radic;(&epsilon;r) for non-magnetic media</span>
+
+Angle of reflection = angle of incidence: &theta;r = &theta;&#7522;
+
+For Q1e: n&sub1; = 1 (free space), &epsilon;r = 16 &rarr; n&sub2; = 4, &theta;&#7522; = 15&deg;
+sin&theta;&#8348; = (1/4)&times;sin15&deg; = 0.0647  &rarr;  &theta;&#8348; &asymp; 3.71&deg;</div>
+    <div class="two-col">
+      <div>
+        <p class="body"><strong>TE (s-pol) — E &perp; plane of incidence:</strong></p>
+        <div class="fbox" style="font-size:0.76rem">&Gamma;_TE = (&eta;&sub2;cos&theta;&#7522; &minus; &eta;&sub1;cos&theta;&#8348;)
+         / (&eta;&sub2;cos&theta;&#7522; + &eta;&sub1;cos&theta;&#8348;)
+
+&tau;_TE = 2&eta;&sub2;cos&theta;&#7522;
+         / (&eta;&sub2;cos&theta;&#7522; + &eta;&sub1;cos&theta;&#8348;)
+
+Check: &tau; = 1 + &Gamma;  (TE only)</div>
+      </div>
+      <div>
+        <p class="body"><strong>TM (p-pol) — H &perp; plane of incidence:</strong></p>
+        <div class="fbox" style="font-size:0.76rem">&Gamma;_TM = (&eta;&sub2;cos&theta;&#8348; &minus; &eta;&sub1;cos&theta;&#7522;)
+         / (&eta;&sub2;cos&theta;&#8348; + &eta;&sub1;cos&theta;&#7522;)
+
+&tau;_TM = 2&eta;&sub2;cos&theta;&#7522;
+         / (&eta;&sub2;cos&theta;&#8348; + &eta;&sub1;cos&theta;&#7522;)
+
+Brewster angle: tan&theta;B = n&sub2;/n&sub1;</div>
+      </div>
+    </div>
+    <div class="fbox"><span class="c">Worked answer for Q1e:</span>
+&eta;&sub1; = 377 &Omega;,  &eta;&sub2; = 377/4 = 94.25 &Omega;
+cos15&deg; = 0.9659,  cos3.71&deg; = 0.9979
+
+&Gamma;_TE = (94.25&times;0.9659 &minus; 377&times;0.9979) / (94.25&times;0.9659 + 377&times;0.9979)
+          &asymp; (91.0 &minus; 376.3) / (91.0 + 376.3) = &minus;0.611
+
+&tau;_TE = 1 + &Gamma; &asymp; 0.389</div>
+    <div class="warn">Q1e says "transverse electric wave" = TE polarisation. Use the TE Fresnel formulas, not TM.</div>
+    <p class="body"><strong>Total Internal Reflection</strong> (dense &rarr; less dense medium):</p>
+    <div class="fbox">Critical angle: sin&theta;c = n&sub2;/n&sub1;   (requires n&sub1; > n&sub2;)
+For &theta;&#7522; > &theta;c:  |&Gamma;| = 1, no transmitted wave
+(Used in optical fibres — light stays trapped inside)</div>
+  </div>
+</div>
+
+<div class="topic c3">
+  <div class="topic-head"><h3>Boundary Conditions</h3><span class="badge">Maxwell Derived</span></div>
+  <div class="topic-body">
+    <div class="fbox">At any interface between two media:
+E&sub1;t = E&sub2;t             <span class="c">tangential E continuous</span>
+H&sub1;t &minus; H&sub2;t = Js        <span class="c">= 0 for dielectric interface</span>
+D&sub1;n &minus; D&sub2;n = &rho;s        <span class="c">= 0 if no surface charge</span>
+B&sub1;n = B&sub2;n             <span class="c">normal B always continuous</span></div>
+    <div class="note">These boundary conditions follow directly from Maxwell's equations in integral form. They are the starting point for deriving Snell's law and Fresnel coefficients.</div>
+  </div>
+</div>
+
+
+<!-- ═══ TOPIC 5: TRANSMISSION LINES ═══ -->
+<h2 class="section-title" id="s5">
+  <span class="sdot" style="background:var(--c4)"></span>
+  Module Topic 5: Transmission Lines
+  <span class="spill" style="color:var(--c4);border-color:rgba(255,183,77,0.35)">May Appear — Not in Sample</span>
+</h2>
+
+<div class="topic c4">
+  <div class="topic-head"><h3>Transmission Line Model &amp; Equations</h3><span class="badge">Core Theory</span></div>
+  <div class="topic-body">
+    <p class="body">A transmission line (coax cable, PCB trace, power line) is modelled by distributed R, L, G, C per unit length:</p>
+    <div class="fbox">Telegrapher's equations:
+&part;V/&part;z = &minus;(R + j&omega;L)I
+&part;I/&part;z = &minus;(G + j&omega;C)V
+
+Propagation constant:
+&gamma; = &radic;((R+j&omega;L)(G+j&omega;C)) = &alpha; + j&beta;
+
+Characteristic impedance:
+Z&#8320; = &radic;((R+j&omega;L)/(G+j&omega;C))
+
+Lossless line (R = G = 0):
+&gamma; = j&beta; = j&omega;&radic;(LC)
+Z&#8320; = &radic;(L/C)          <span class="c">real, purely geometry-dependent</span>
+v = 1/&radic;(LC) = c/&radic;(&epsilon;r)   <span class="c">phase velocity on line</span></div>
+    <div class="tip">For coaxial cable: Z&#8320; = (&eta;/2&pi;)ln(b/a) where b, a are outer and inner conductor radii. 50 &Omega; is standard RF. 75 &Omega; is standard for TV/video.</div>
+  </div>
+</div>
+
+<div class="topic c4">
+  <div class="topic-head"><h3>Reflections, VSWR &amp; Impedance Matching</h3><span class="badge">Key Applications</span></div>
+  <div class="topic-body">
+    <div class="fbox">Reflection coefficient at load Z&#8319;:
+&Gamma;&#8319; = (Z&#8319; &minus; Z&#8320;) / (Z&#8319; + Z&#8320;)
+
+Special cases:
+Z&#8319; = Z&#8320;  (matched)  &rarr;  &Gamma; = 0    no reflection
+Z&#8319; = 0   (short)    &rarr;  &Gamma; = &minus;1   total reflection, voltage zero at load
+Z&#8319; = &infin;  (open)     &rarr;  &Gamma; = +1   total reflection, current zero at load
+
+VSWR = (1 + |&Gamma;|) / (1 &minus; |&Gamma;|)
+VSWR = 1: perfect match;  VSWR = &infin;: total reflection
+
+Input impedance at distance l from load:
+Z_in = Z&#8320; &times; (Z&#8319; + jZ&#8320; tan(&beta;l)) / (Z&#8320; + jZ&#8319; tan(&beta;l))</div>
+    <p class="body"><strong>Quarter-wave transformer</strong> — used to match two different impedances:</p>
+    <div class="fbox">At l = &lambda;/4:  Z_in = Z&#8320;&sup2; / Z&#8319;
+
+To match Z_source to Z_load, insert a &lambda;/4 section with:
+Z&#8320; = &radic;(Z_source &times; Z_load)</div>
+    <div class="note">Impedance matching is critical in all RF systems. A mismatch means reflected power returns to the transmitter — wasted energy and potentially damaging to amplifiers.</div>
+  </div>
+</div>
+
+
+<!-- ═══ TOPIC 6: ANTENNAS ═══ -->
+<h2 class="section-title" id="s6">
+  <span class="sdot" style="background:var(--c5)"></span>
+  Module Topic 6: Antennas
+  <span class="spill" style="color:var(--c5);border-color:rgba(206,147,216,0.35)">Q3b · Q3c — Direct Exam Questions</span>
+</h2>
+
+<div class="topic c5">
+  <div class="topic-head"><h3>Antenna Parameters</h3><span class="badge">Definitions</span></div>
+  <div class="topic-body">
+    <div class="fbox">Radiation resistance R_rad:
+P_rad = &frac12; I&#8320;&sup2; R_rad   <span class="c">power radiated by antenna with peak current I&#8320;</span>
+
+Directivity D:
+D(&theta;,&phi;) = U(&theta;,&phi;) / U_avg    <span class="c">radiation intensity vs. average</span>
+
+Gain G = &eta;_rad &times; D    <span class="c">&eta;_rad = P_rad/P_input = radiation efficiency</span>
+
+Effective aperture: A_eff = G&lambda;&sup2;/(4&pi;)</div>
+  </div>
+</div>
+
+<div class="topic c5">
+  <div class="topic-head"><h3>Short (Hertzian) Dipole</h3><span class="badge">Q3b</span></div>
+  <div class="topic-body">
+    <div class="fbox">Valid when: L &laquo; &lambda;
+
+Radiation resistance:
+R_rad = 80&pi;&sup2; (L/&lambda;)&sup2;   [&Omega;]
+
+For Q3b: f = 200 MHz, L = 2 cm
+  &lambda; = c/f = 3&times;10&sup8; / 2&times;10&sup8; = 1.5 m
+  L/&lambda; = 0.02 / 1.5 = 0.0133  &laquo; 1   &check; assumption valid
+
+  R_rad = 80&pi;&sup2; &times; (0.0133)&sup2; &asymp; 0.140 &Omega;
+
+  P_rad = &frac12; I&#8320;&sup2; R_rad
+  I&#8320; = &radic;(2 &times; P_rad / R_rad) = &radic;(40/0.140) &asymp; 16.9 A
+
+Pattern: U &prop; sin&sup2;&theta;
+Directivity: D = 1.5</div>
+    <div class="warn">The question says "verify assumptions" — explicitly show L/&lambda; = 0.0133 &laquo; 1. This is worth marks. Don't skip it.</div>
+  </div>
+</div>
+
+<div class="topic c5">
+  <div class="topic-head"><h3>Half-Wave Dipole</h3><span class="badge">Q3c</span></div>
+  <div class="topic-body">
+    <div class="fbox">Length: L = &lambda;/2
+
+For f = 200 MHz:
+&lambda; = c/f = 1.5 m  &rarr;  L = 0.75 m
+
+Properties:
+R_rad &asymp; 73 &Omega;    <span class="c">radiation resistance</span>
+D &asymp; 1.64        <span class="c">slightly more directive than short dipole</span>
+Z_in &asymp; 73 + j42.5 &Omega;  <span class="c">slightly inductive — shorten slightly for resonance</span></div>
+    <div class="tip">Radiation pattern sketch: vertical antenna line, two bulging lobes pointing left and right (broadside). Label: maximum at &theta; = 90&deg;, nulls at &theta; = 0&deg; and 180&deg; (along axis). Nearly identical to short dipole but slightly narrower.</div>
+  </div>
+</div>
+
+<div class="topic c5">
+  <div class="topic-head"><h3>Friis Transmission Equation</h3><span class="badge">Link Budget</span></div>
+  <div class="topic-body">
+    <div class="fbox">P_r = P_t &times; G_t &times; G_r &times; (&lambda;/4&pi;R)&sup2;
+
+P_t = transmitted power [W]
+G_t, G_r = gains of transmit/receive antennas
+R = link distance [m]
+(&lambda;/4&pi;R)&sup2; = free-space path loss factor</div>
+    <div class="note">Friis equation is the basis of all wireless link budget calculations — WiFi, mobile, radar, satellite. It tells you whether a received signal is detectable.</div>
+  </div>
+</div>
+
+
+<!-- ═══ TOPIC 7: EMC & SAFETY ═══ -->
+<h2 class="section-title" id="s7">
+  <span class="sdot" style="background:var(--c6)"></span>
+  Module Topic 7: EMC &amp; Safety
+  <span class="spill" style="color:var(--c6);border-color:rgba(128,203,196,0.35)">Definitions Likely</span>
+</h2>
+
+<div class="topic c6">
+  <div class="topic-head"><h3>Electromagnetic Compatibility (EMC)</h3><span class="badge">Concepts</span></div>
+  <div class="topic-body">
+    <p class="body"><strong>EMC</strong> is the ability of equipment to work correctly in its electromagnetic environment without causing or suffering interference.</p>
+    <div class="fbox">Three elements of any EMI problem:
+1. Source    — emits unwanted EM energy
+2. Path      — coupling mechanism (radiated, conducted, near-field)
+3. Receptor  — device affected
+
+EMC fixes target one or more elements:
+&bull; Reduce source emission (filtering, layout)
+&bull; Block coupling path (shielding, separation, twisted pairs)
+&bull; Harden the receptor (filtering, grounding)</div>
+    <p class="body"><strong>Shielding Effectiveness (SE):</strong></p>
+    <div class="fbox">SE = 20 log&#8321;&#8320;(E_incident / E_transmitted)   [dB]
+
+SE = R + A + M  (reflection + absorption + multiple reflections)
+
+Absorption loss in shield of thickness t:
+A = 8.686 &times; t/&delta;s   [dB]   <span class="c">&delta;s = skin depth in shield material</span>
+
+Higher &sigma; or higher f &rarr; smaller &delta;s &rarr; more absorption &rarr; better shielding</div>
+  </div>
+</div>
+
+<div class="topic c6">
+  <div class="topic-head"><h3>Human Exposure &amp; SAR</h3><span class="badge">Safety Standards</span></div>
+  <div class="topic-body">
+    <div class="fbox">Specific Absorption Rate (SAR):
+SAR = &sigma;|E|&sup2; / &rho;   [W/kg]
+
+&sigma; = tissue conductivity [S/m]
+&rho; = tissue mass density  [kg/m&sup3;]
+E = electric field inside tissue [V/m]
+
+Safety limits (ICNIRP):
+General public:  SAR &lt; 2 W/kg  (averaged over 10 g, head/trunk)
+Occupational:    SAR &lt; 10 W/kg
+
+Mobile phones: &lt; 2 W/kg (EU) or &lt; 1.6 W/kg (US/FCC)</div>
+    <div class="note">SAR links directly to the lossy media topic — the Ohmic power dissipated per unit volume is &frac12;&sigma;|E|&sup2;. SAR is this divided by mass density.</div>
+    <p class="body"><strong>Frequency bands and biological effects:</strong></p>
+    <div class="fbox">ELF (50/60 Hz):       Power lines — induced currents in body
+RF (kHz–GHz):         Mobile/WiFi — tissue heating (SAR)
+Microwave (1–100 GHz): Shallow penetration, surface heating
+Ionising (UV, X-ray):  Photon energy breaks chemical bonds &rarr; DNA damage</div>
+    <div class="warn">Non-ionising RF/microwave radiation heats tissue but does NOT cause ionisation at normal exposure levels. Below ICNIRP limits, no established health effects exist. X-rays are a distinct ionising hazard.</div>
+  </div>
+</div>
+
+
+<!-- ═══ REFERENCE ═══ -->
+<h2 class="section-title" id="s8">
+  <span class="sdot" style="background:var(--cgold)"></span>
+  Essential Reference
+  <span class="spill" style="color:var(--cgold);border-color:rgba(255,213,79,0.35)">Print This Page</span>
+</h2>
+
+<div class="topic cgold">
+  <div class="topic-head"><h3>Constants &amp; Coordinate Conversions</h3><span class="badge">All Questions</span></div>
+  <div class="topic-body">
+    <div class="two-col">
+      <div>
+        <p class="body"><strong>Physical Constants:</strong></p>
+        <div class="fbox" style="font-size:0.76rem">&epsilon;&#8320; = 8.854 &times; 10&#8315;&sup1;&sup2; F/m
+&mu;&#8320; = 4&pi; &times; 10&#8315;&sup7; H/m
+c  = 3 &times; 10&sup8; m/s
+&eta;&#8320; = 377 &Omega; = 120&pi; &Omega;
+e  = 1.602 &times; 10&#8315;&sup1;&sup9; C</div>
+      </div>
+      <div>
+        <p class="body"><strong>Cylindrical &rarr; Cartesian:</strong></p>
+        <div class="fbox" style="font-size:0.76rem">x = &rho; cos&phi;,  y = &rho; sin&phi;,  z = z
+&#234;&rho; =  cos&phi; &#234;x + sin&phi; &#234;y
+&#234;&phi; = &minus;sin&phi; &#234;x + cos&phi; &#234;y
+&#234;z = &#234;z</div>
+      </div>
+    </div>
+    <p class="body"><strong>Spherical &rarr; Cartesian:</strong></p>
+    <div class="fbox">x = r sin&theta; cos&phi;,  y = r sin&theta; sin&phi;,  z = r cos&theta;
+r = &radic;(x&sup2;+y&sup2;+z&sup2;),  &theta; = arccos(z/r),  &phi; = arctan(y/x)
+
+&#234;r =  sin&theta;cos&phi; &#234;x + sin&theta;sin&phi; &#234;y + cos&theta; &#234;z
+&#234;&theta; =  cos&theta;cos&phi; &#234;x + cos&theta;sin&phi; &#234;y &minus; sin&theta; &#234;z
+&#234;&phi; = &minus;sin&phi; &#234;x + cos&phi; &#234;y</div>
+    <div class="warn">Q1b positions mix cylindrical and spherical notation. Read carefully — convert everything to Cartesian before computing any vectors.</div>
+  </div>
+</div>
+
+<div class="topic cgold">
+  <div class="topic-head"><h3>Vector Calculus Quick Reference</h3><span class="badge">Print This</span></div>
+  <div class="topic-body">
+    <div class="fbox">Gradient (Cartesian):
+&nabla;f = &part;f/&part;x &#234;x + &part;f/&part;y &#234;y + &part;f/&part;z &#234;z
+
+Curl (Cartesian):
+&nabla;&times;A = (&part;Az/&part;y &minus; &part;Ay/&part;z)&#234;x + (&part;Ax/&part;z &minus; &part;Az/&part;x)&#234;y + (&part;Ay/&part;x &minus; &part;Ax/&part;y)&#234;z
+
+Cross product right-hand rule:
+&#234;x&times;&#234;y = &#234;z,  &#234;y&times;&#234;z = &#234;x,  &#234;z&times;&#234;x = &#234;y
+(reverse order = negative: &#234;y&times;&#234;x = &minus;&#234;z)</div>
+  </div>
+</div>
+
+<div class="topic cgold">
+  <div class="topic-head"><h3>Study Priority Map</h3><span class="badge">Exam Strategy</span></div>
+  <div class="topic-body">
+    <div class="prio-grid">
+      <span class="prio-hdr">Topic</span>
+      <span class="prio-hdr">Priority</span>
+      <span class="prio-hdr">Notes</span>
+
+      <span>Maxwell's Equations</span><span style="color:var(--c2)">&#9679;&#9679;&#9679;</span><span style="color:var(--muted);font-size:0.8rem">Foundation for all other topics</span>
+      <span>Lossless Propagation</span><span style="color:var(--c2)">&#9679;&#9679;&#9679;</span><span style="color:var(--cgold);font-size:0.8rem">Q1a–d, Q2 all, Q3a in sample</span>
+      <span>Lossy Media</span><span style="color:var(--c4)">&#9679;&#9679;&#9675;</span><span style="color:var(--muted);font-size:0.8rem">Not in sample — exam risk, prepare &alpha;/&beta; formulas</span>
+      <span>Waves at Boundaries</span><span style="color:var(--c2)">&#9679;&#9679;&#9679;</span><span style="color:var(--cgold);font-size:0.8rem">Q1e directly in sample</span>
+      <span>Transmission Lines</span><span style="color:var(--c4)">&#9679;&#9679;&#9675;</span><span style="color:var(--muted);font-size:0.8rem">Not in sample — prepare Z&#8320;, &Gamma;, VSWR formulas</span>
+      <span>Antennas</span><span style="color:var(--c2)">&#9679;&#9679;&#9679;</span><span style="color:var(--cgold);font-size:0.8rem">Q3b and Q3c directly in sample</span>
+      <span>EMC &amp; Safety</span><span style="color:var(--c3)">&#9679;&#9675;&#9675;</span><span style="color:var(--muted);font-size:0.8rem">Definitions/concepts — lower computational demand</span>
+    </div>
+    <div class="warn" style="margin-top:1rem">Lossy media and transmission lines are fully in the module content but absent from the sample paper. In an open-book exam, the examiner can introduce them as a new question. Prepare a formula sheet for both — it takes 10 minutes and could be worth 20+ marks.</div>
+  </div>
+</div>
+
+</div>
+</body>
+</html>
