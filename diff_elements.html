@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Differential Elements — EM Reference Sheet</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,400;0,600;1,400&family=JetBrains+Mono:wght@400;600&display=swap');
+
+  :root {
+    --cart: #1565c0;
+    --cyl:  #6a1b9a;
+    --sph:  #b71c1c;
+    --gold: #e65100;
+    --green: #2e7d32;
+    --bg: #ffffff;
+    --surface: #f8f9fc;
+    --border: #dde1eb;
+    --text: #1a1d26;
+    --muted: #5a6278;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Crimson Pro', Georgia, serif;
+    font-size: 15px;
+    line-height: 1.6;
+    padding: 2rem 1.5rem 4rem;
+  }
+
+  .page { max-width: 960px; margin: 0 auto; }
+
+  /* ── HEADER ── */
+  .header {
+    border-bottom: 3px solid var(--text);
+    padding-bottom: 1rem;
+    margin-bottom: 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+  .header h1 {
+    font-size: 1.9rem;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+  }
+  .header .sub {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--muted);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+  .header .tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.68rem;
+    padding: 0.25rem 0.7rem;
+    border: 1px solid var(--border);
+    color: var(--muted);
+    border-radius: 2px;
+    letter-spacing: 0.06em;
+  }
+
+  /* ── SECTION LABELS ── */
+  .sec-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.62rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    font-weight: 600;
+    padding: 0.2rem 0.6rem;
+    border-radius: 2px;
+    display: inline-block;
+    margin-bottom: 0.8rem;
+  }
+  .lbl-cart  { background: #e3f0ff; color: var(--cart); }
+  .lbl-cyl   { background: #f3e8ff; color: var(--cyl);  }
+  .lbl-sph   { background: #ffe8e8; color: var(--sph);  }
+  .lbl-int   { background: #fff3e0; color: var(--gold); }
+  .lbl-guide { background: #e8f5e9; color: var(--green);}
+
+  /* ── BIG THREE-COLUMN COORD GRID ── */
+  .coord-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0;
+    border: 2px solid var(--text);
+    border-radius: 6px;
+    overflow: hidden;
+    margin-bottom: 2rem;
+  }
+
+  .coord-col {
+    border-right: 1px solid var(--border);
+    padding: 1.2rem 1rem 1.4rem;
+  }
+  .coord-col:last-child { border-right: none; }
+
+  .coord-col.cart { background: #f5f9ff; }
+  .coord-col.cyl  { background: #faf5ff; }
+  .coord-col.sph  { background: #fff5f5; }
+
+  .coord-col h2 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 0.2rem;
+  }
+  .coord-col.cart h2 { color: var(--cart); }
+  .coord-col.cyl  h2 { color: var(--cyl);  }
+  .coord-col.sph  h2 { color: var(--sph);  }
+
+  .coord-col .vars {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--muted);
+    margin-bottom: 1rem;
+  }
+
+  .elem-group { margin-bottom: 1rem; }
+  .elem-group .elem-title {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.6rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+    margin-bottom: 0.3rem;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 0.2rem;
+  }
+
+  .eq {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.78rem;
+    line-height: 1.8;
+    color: var(--text);
+    background: rgba(255,255,255,0.7);
+    border-radius: 3px;
+    padding: 0.4rem 0.6rem;
+    margin: 0.3rem 0;
+    border-left: 3px solid;
+    white-space: pre-wrap;
+  }
+  .coord-col.cart .eq { border-left-color: var(--cart); }
+  .coord-col.cyl  .eq { border-left-color: var(--cyl);  }
+  .coord-col.sph  .eq { border-left-color: var(--sph);  }
+
+  .eq .note { color: var(--muted); font-size: 0.7rem; font-style: italic; font-family: 'Crimson Pro', serif; }
+
+  /* ── INTEGRALS SECTION ── */
+  .int-section {
+    margin-bottom: 2rem;
+  }
+  .int-section h2 {
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    padding-bottom: 0.4rem;
+    border-bottom: 2px solid var(--border);
+    color: var(--gold);
+  }
+
+  .int-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+
+  .int-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-top: 3px solid var(--gold);
+    border-radius: 4px;
+    padding: 0.9rem 1rem;
+  }
+  .int-card h3 {
+    font-size: 0.95rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: var(--gold);
+  }
+  .int-card .eq {
+    border-left-color: var(--gold);
+    font-size: 0.76rem;
+  }
+  .int-card p {
+    font-size: 0.84rem;
+    color: var(--muted);
+    margin: 0.4rem 0 0.2rem;
+    font-style: italic;
+  }
+
+  /* ── LIMITS TABLE ── */
+  .limits-section {
+    margin-bottom: 2rem;
+  }
+  .limits-section h2 {
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    padding-bottom: 0.4rem;
+    border-bottom: 2px solid var(--border);
+    color: var(--green);
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.78rem;
+  }
+  thead tr { background: #e8f5e9; }
+  th {
+    padding: 0.5rem 0.8rem;
+    text-align: left;
+    color: var(--green);
+    font-size: 0.65rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    border: 1px solid #c8e6c9;
+  }
+  td {
+    padding: 0.45rem 0.8rem;
+    border: 1px solid var(--border);
+    color: var(--text);
+    vertical-align: top;
+    line-height: 1.7;
+  }
+  tr:nth-child(even) td { background: #fafbfc; }
+  td.label { color: var(--green); font-weight: 600; width: 20%; }
+  td.var   { color: var(--muted); width: 15%; }
+
+  /* ── GUIDE SECTION ── */
+  .guide-section {
+    margin-bottom: 2rem;
+  }
+  .guide-section h2 {
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    padding-bottom: 0.4rem;
+    border-bottom: 2px solid var(--border);
+    color: var(--green);
+  }
+  .guide-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.8rem;
+  }
+  .guide-card {
+    background: #e8f5e9;
+    border: 1px solid #c8e6c9;
+    border-radius: 4px;
+    padding: 0.8rem 1rem;
+  }
+  .guide-card h4 {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--green);
+    margin-bottom: 0.4rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+  .guide-card ul { list-style: none; padding: 0; }
+  .guide-card ul li { font-size: 0.84rem; color: #2e5a32; padding: 0.15rem 0; }
+  .guide-card ul li::before { content: "→ "; opacity: 0.6; }
+
+  /* ── TIPS BOX ── */
+  .tips-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 0.8rem;
+    margin-bottom: 2rem;
+  }
+  .tip-card {
+    border-radius: 4px;
+    padding: 0.8rem 1rem;
+    font-size: 0.84rem;
+    line-height: 1.5;
+  }
+  .tip-card.blue  { background: #e3f0ff; border: 1px solid #90caf9; color: #0d3c7a; }
+  .tip-card.purple{ background: #f3e8ff; border: 1px solid #ce93d8; color: #4a1070; }
+  .tip-card.red   { background: #ffe8e8; border: 1px solid #ef9a9a; color: #7a0d0d; }
+  .tip-card strong { display: block; margin-bottom: 0.3rem; font-size: 0.78rem; font-family: 'JetBrains Mono', monospace; text-transform: uppercase; letter-spacing: 0.06em; }
+
+  @media (max-width: 700px) {
+    .coord-grid, .int-grid, .guide-grid, .tips-row { grid-template-columns: 1fr; }
+    .coord-col { border-right: none; border-bottom: 1px solid var(--border); }
+  }
+
+  @media print {
+    body { padding: 1rem; font-size: 13px; }
+    .page { max-width: 100%; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+<!-- HEADER -->
+<div class="header">
+  <div>
+    <div class="sub">EEU33C14 · Engineering Electromagnetics</div>
+    <h1>Differential Elements<br>Reference Sheet</h1>
+  </div>
+  <div class="tag">dl · dS · dV · Integrals · Limits</div>
+</div>
+
+
+<!-- ══════════════════════════════════════ -->
+<!-- PART 1: THE THREE COORDINATE SYSTEMS  -->
+<!-- ══════════════════════════════════════ -->
+<div style="margin-bottom:0.8rem">
+  <span class="sec-label lbl-cart">Cartesian</span>
+  <span class="sec-label lbl-cyl" style="margin-left:0.3rem">Cylindrical</span>
+  <span class="sec-label lbl-sph" style="margin-left:0.3rem">Spherical</span>
+</div>
+
+<div class="coord-grid">
+
+  <!-- CARTESIAN -->
+  <div class="coord-col cart">
+    <h2>Cartesian</h2>
+    <div class="vars">(x, y, z) · ê_x, ê_y, ê_z</div>
+
+    <div class="elem-group">
+      <div class="elem-title">Line Element dl</div>
+      <div class="eq">dl = dx ê_x
+   + dy ê_y
+   + dz ê_z</div>
+      <div class="eq" style="font-size:0.7rem"><span class="note">Along x-axis only: dl = dx ê_x
+Along y-axis only: dl = dy ê_y
+Along z-axis only: dl = dz ê_z</span></div>
+    </div>
+
+    <div class="elem-group">
+      <div class="elem-title">Surface Element dS</div>
+      <div class="eq">xy-plane: dS = dx dy ê_z
+xz-plane: dS = dx dz ê_y
+yz-plane: dS = dy dz ê_x</div>
+    </div>
+
+    <div class="elem-group">
+      <div class="elem-title">Volume Element dV</div>
+      <div class="eq">dV = dx dy dz</div>
+    </div>
+  </div>
+
+  <!-- CYLINDRICAL -->
+  <div class="coord-col cyl">
+    <h2>Cylindrical</h2>
+    <div class="vars">(ρ, φ, z) · ê_ρ, ê_φ, ê_z</div>
+
+    <div class="elem-group">
+      <div class="elem-title">Line Element dl</div>
+      <div class="eq">dl = dρ ê_ρ
+   + ρ dφ ê_φ
+   + dz ê_z</div>
+      <div class="eq" style="font-size:0.7rem"><span class="note">Radial only:    dl = dρ ê_ρ
+Around circle:  dl = ρ dφ ê_φ
+Along axis:     dl = dz ê_z</span></div>
+    </div>
+
+    <div class="elem-group">
+      <div class="elem-title">Surface Element dS</div>
+      <div class="eq">Side of cylinder:
+  dS = ρ dφ dz ê_ρ
+
+Top/bottom disk:
+  dS = ρ dρ dφ ê_z
+
+Wedge face:
+  dS = dρ dz ê_φ</div>
+    </div>
+
+    <div class="elem-group">
+      <div class="elem-title">Volume Element dV</div>
+      <div class="eq">dV = ρ dρ dφ dz</div>
+      <div class="eq" style="font-size:0.7rem"><span class="note">The ρ factor comes from the
+arc length ρ dφ in the φ direction</span></div>
+    </div>
+  </div>
+
+  <!-- SPHERICAL -->
+  <div class="coord-col sph">
+    <h2>Spherical</h2>
+    <div class="vars">(r, θ, φ) · ê_r, ê_θ, ê_φ</div>
+
+    <div class="elem-group">
+      <div class="elem-title">Line Element dl</div>
+      <div class="eq">dl = dr ê_r
+   + r dθ ê_θ
+   + r sinθ dφ ê_φ</div>
+      <div class="eq" style="font-size:0.7rem"><span class="note">Radial only:  dl = dr ê_r
+Along θ:      dl = r dθ ê_θ
+Along φ:      dl = r sinθ dφ ê_φ</span></div>
+    </div>
+
+    <div class="elem-group">
+      <div class="elem-title">Surface Element dS</div>
+      <div class="eq">Sphere surface (const r):
+  dS = r² sinθ dθ dφ ê_r
+
+Cone surface (const θ):
+  dS = r sinθ dr dφ ê_θ
+
+Wedge (const φ):
+  dS = r dr dθ ê_φ</div>
+    </div>
+
+    <div class="elem-group">
+      <div class="elem-title">Volume Element dV</div>
+      <div class="eq">dV = r² sinθ dr dθ dφ</div>
+      <div class="eq" style="font-size:0.7rem"><span class="note">Two scale factors: r² from the
+radial geometry, sinθ from the
+latitude shrinking near the poles</span></div>
+    </div>
+  </div>
+
+</div><!-- end coord-grid -->
+
+
+<!-- TIPS ROW -->
+<div class="tips-row">
+  <div class="tip-card blue">
+    <strong>Cartesian — use when</strong>
+    Flat plates, rectangular boxes, fields given as V(x,y,z), any problem with flat parallel boundaries. Q2a (square plate) is Cartesian.
+  </div>
+  <div class="tip-card purple">
+    <strong>Cylindrical — use when</strong>
+    Coaxial cables, cylinders, wires, anything with a long axis of symmetry. Common in transmission line and waveguide problems.
+  </div>
+  <div class="tip-card red">
+    <strong>Spherical — use when</strong>
+    Point charges, spherical shells, antennas (radiation patterns). V = Q/(4πεr) and E = E(r) are spherical by nature. Q2b is spherical.
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════ -->
+<!-- PART 2: SETTING UP INTEGRALS          -->
+<!-- ══════════════════════════════════════ -->
+<div class="int-section">
+  <h2>Setting Up Integrals</h2>
+  <div class="int-grid">
+
+    <div class="int-card">
+      <h3>Line Integral — ∫ F · dl</h3>
+      <p>Used for: voltage from E-field, work done moving a charge</p>
+      <div class="eq">V_BA = −∫(A→B) E · dl
+
+Steps:
+1. Pick a path from A to B
+2. Write dl for that path/direction
+3. Dot E · dl (only the matching
+   component survives)
+4. Set limits from start to end point</div>
+      <p>Example — radial path in spherical:</p>
+      <div class="eq">E = E_r(r) ê_r,  dl = dr ê_r
+E · dl = E_r dr
+
+V_BA = −∫[r_A to r_B] E_r dr</div>
+    </div>
+
+    <div class="int-card">
+      <h3>Surface Integral — ∬ F · dS</h3>
+      <p>Used for: Gauss's Law (total flux), total charge on a surface</p>
+      <div class="eq">Φ = ∬ D · dS = Q_enclosed
+
+Steps:
+1. Identify the surface geometry
+2. Write dS with correct ê_n (outward)
+3. Dot F · dS
+4. Set limits over the surface area</div>
+      <p>Example — flat plate in xy-plane (Q2a):</p>
+      <div class="eq">dS = dx' dy' ê_z
+Limits: x' from −L/2 to L/2
+        y' from −L/2 to L/2
+
+E = ∫∫ (ρs/4πε₀) × R/|R|³ dx'dy'</div>
+    </div>
+
+    <div class="int-card">
+      <h3>Volume Integral — ∭ f dV</h3>
+      <p>Used for: total charge from charge density ρᵥ</p>
+      <div class="eq">Q_total = ∭ ρᵥ dV
+
+Cartesian:   ∫∫∫ ρᵥ dx dy dz
+Cylindrical: ∫∫∫ ρᵥ ρ dρ dφ dz
+Spherical:   ∫∫∫ ρᵥ r² sinθ dr dθ dφ</div>
+      <p>Example — uniform sphere of charge density ρᵥ, radius R:</p>
+      <div class="eq">Q = ∫₀ᴿ ∫₀^π ∫₀^2π ρᵥ r² sinθ dφ dθ dr
+  = ρᵥ × (4/3)πR³</div>
+    </div>
+
+    <div class="int-card">
+      <h3>Closed Surface — ∯ D · dS</h3>
+      <p>Used for: Gauss's Law to find E from symmetric charge distributions</p>
+      <div class="eq">∯ D · dS = Q_enclosed
+
+Strategy — choose a Gaussian surface
+where E is constant and parallel to dS:
+
+Sphere  → use spherical surface
+Cylinder → use cylindrical surface
+Plane   → use pillbox (flat box)</div>
+      <p>Point charge — spherical Gaussian surface radius r:</p>
+      <div class="eq">D × 4πr² = Q
+E = Q/(4πεr²) ê_r   ← Coulomb's Law</div>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════ -->
+<!-- PART 3: COMMON LIMITS OF INTEGRATION  -->
+<!-- ══════════════════════════════════════ -->
+<div class="limits-section">
+  <h2>Common Limits of Integration</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Geometry</th>
+        <th>Variable</th>
+        <th>From</th>
+        <th>To</th>
+        <th>Notes</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="label" rowspan="3">Full Sphere</td>
+        <td class="var">r</td>
+        <td>0</td>
+        <td>R</td>
+        <td>R = sphere radius</td>
+      </tr>
+      <tr>
+        <td class="var">θ</td>
+        <td>0</td>
+        <td>π</td>
+        <td>0 = north pole, π = south pole</td>
+      </tr>
+      <tr>
+        <td class="var">φ</td>
+        <td>0</td>
+        <td>2π</td>
+        <td>full revolution around z-axis</td>
+      </tr>
+      <tr>
+        <td class="label" rowspan="3">Full Cylinder</td>
+        <td class="var">ρ</td>
+        <td>0</td>
+        <td>a</td>
+        <td>a = cylinder radius</td>
+      </tr>
+      <tr>
+        <td class="var">φ</td>
+        <td>0</td>
+        <td>2π</td>
+        <td>full revolution</td>
+      </tr>
+      <tr>
+        <td class="var">z</td>
+        <td>0</td>
+        <td>L</td>
+        <td>L = cylinder length</td>
+      </tr>
+      <tr>
+        <td class="label" rowspan="2">Square Plate (side a, centred at origin)</td>
+        <td class="var">x</td>
+        <td>−a/2</td>
+        <td>a/2</td>
+        <td>centred on x-axis</td>
+      </tr>
+      <tr>
+        <td class="var">y</td>
+        <td>−a/2</td>
+        <td>a/2</td>
+        <td>centred on y-axis — same as Q2a</td>
+      </tr>
+      <tr>
+        <td class="label">Sphere surface only</td>
+        <td class="var">θ, φ</td>
+        <td>0, 0</td>
+        <td>π, 2π</td>
+        <td>r = R fixed. dS = R² sinθ dθ dφ ê_r</td>
+      </tr>
+      <tr>
+        <td class="label">Cylinder surface only</td>
+        <td class="var">φ, z</td>
+        <td>0, 0</td>
+        <td>2π, L</td>
+        <td>ρ = a fixed. dS = a dφ dz ê_ρ</td>
+      </tr>
+      <tr>
+        <td class="label">Half space (upper)</td>
+        <td class="var">θ</td>
+        <td>0</td>
+        <td>π/2</td>
+        <td>above xy-plane only</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+
+<!-- ══════════════════════════════════════ -->
+<!-- PART 4: WHICH TO USE WHEN             -->
+<!-- ══════════════════════════════════════ -->
+<div class="guide-section">
+  <h2>Which Coordinate System to Use</h2>
+  <div class="guide-grid">
+    <div class="guide-card">
+      <h4>Use Cartesian when…</h4>
+      <ul>
+        <li>Problem has a rectangular plate or box</li>
+        <li>V is given as V(x, y, z)</li>
+        <li>Fields are uniform or vary with x/y/z</li>
+        <li>Boundaries are flat and parallel</li>
+        <li>Taking a gradient or curl of a Cartesian field</li>
+      </ul>
+    </div>
+    <div class="guide-card">
+      <h4>Use Cylindrical when…</h4>
+      <ul>
+        <li>Problem has a wire, cable, or rod</li>
+        <li>Coaxial cable geometry (inner + outer radii)</li>
+        <li>Field has rotational symmetry around z-axis</li>
+        <li>Waveguide cross-sections</li>
+        <li>V or E depends on ρ only (E = E(ρ) ê_ρ)</li>
+      </ul>
+    </div>
+    <div class="guide-card">
+      <h4>Use Spherical when…</h4>
+      <ul>
+        <li>Point charge or spherical shell</li>
+        <li>V = Q/(4πεr) — always spherical</li>
+        <li>Antenna radiation patterns (E depends on r, θ)</li>
+        <li>Field depends only on distance from a point</li>
+        <li>Gauss's Law with a spherical surface</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+</div><!-- end .page -->
+</body>
+</html>
